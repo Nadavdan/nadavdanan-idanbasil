@@ -14,20 +14,6 @@ using namespace std;
 string working_directory = "Files";
 string path = "Files";
 
-#ifdef _linux_ 
-#include <unistd.h>
-    void MyMkDir(const char* path){
-		mkdir(path, 0666);
-	}
-#elif _WIN32
-#include <direct.h>
-    void MyMkDir(const char* path) {
-        _mkdir(path);
-    }
-#else
-
-#endif
-
 
 void WriteToFile(experimental::filesystem::path path)
 {
