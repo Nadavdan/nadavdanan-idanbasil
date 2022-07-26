@@ -12,17 +12,20 @@
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 string working_directory = "Files";
-string path = "Files";
-
 
 void WriteToFile(experimental::filesystem::path path)
 {
     ofstream myFile_Handler;
     // File Open
     myFile_Handler.open(path.c_str());
-    
-    myFile_Handler << "Hello from argument3" << endl;
-
+    if (myFile_Handler.is_open())
+    {
+        myFile_Handler << "Hello from argument3" << endl;
+    }
+    else
+    {
+        cout << "Unable to open the file!";
+    }
     // File Close
     myFile_Handler.close();
 }
@@ -52,36 +55,36 @@ void ReadFromFile(experimental::filesystem::path path)
 
 void create_dir(std::experimental::filesystem::path dir_path)
 {
-    if(false == std::experimental::filesystem::is_directory(dir_path)){
-    	if(false == std::experimental::filesystem::create_directory(dir_path))
-		cout << "directory creation failed" << endl;
-//		exit(1);
+    if (false == std::experimental::filesystem::is_directory(dir_path)) {
+        if (false == std::experimental::filesystem::create_directory(dir_path))
+            cout << "directory creation failed" << endl;
+        //		exit(1);
     }
 }
 
 int main(int argc, char** argv)
 {
-    if (argc < 2){
-    	printf("missing argument\r\n");
-	    exit(1);
+    if (argc < 2) {
+        printf("missing argument\r\n");
+        exit(1);
     }
     experimental::filesystem::path working_dir = experimental::filesystem::current_path();
     working_dir /= working_directory;
-    
+
     create_dir(working_dir);
-    
-    experimental::filesystem::path path = working_dir;
-    path /= "argument2.txt";
-    if(!strcmp("create", argv[1]))
+
+    experimental::filesystem::path file_path = working_dir;
+    file_path /= "argument2.txt";
+    if (!strcmp("create", argv[1]))
     {
-	    WriteToFile(path);
+        WriteToFile(file_path);
     }
-    if(!strcmp("read", argv[1]))
+    if (!strcmp("read", argv[1]))
     {
-    	ReadFromFile(path);
+        ReadFromFile(file_path);
     }
-    
+
     std::cout << "Press enter to exit" << std::endl;
-    
+
     return 0;
 }
